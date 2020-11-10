@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'Netty-Gradle'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    mavenCentral()
+}
+dependencies {
+    compile (
+            "org.openlabtesting.netty:netty-all:4.1.48.Final",
+            'org.projectlombok:lombok:1.18.16'
+    )
+    testCompile (
+        "junit:junit:4.11"
+    )
+
+
+}
