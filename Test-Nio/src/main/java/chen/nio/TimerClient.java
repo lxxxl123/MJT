@@ -1,8 +1,9 @@
 package chen.nio;
 
-import chen.ChannelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import utils.NioUtils;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
@@ -71,14 +72,14 @@ public class TimerClient implements Runnable {
             SocketChannel channel = (SocketChannel) key.channel();
             if (key.isConnectable()) {
                 if (channel.finishConnect()) {
-                    ChannelUtils.writeChannel(channel, "客户端连接成功", "utf-8");
+                    NioUtils.writeChannel(channel, "客户端连接成功", "utf-8");
                     channel.register(selector, SelectionKey.OP_READ);
                 }else {
                     channel.close();
                 }
             }
             if (key.isReadable()) {
-                String read = ChannelUtils.readChannel(channel, "utf-8");
+                String read = NioUtils.readChannel(channel, "utf-8");
                 if (StringUtils.isNotEmpty(read)) {
                     log.info("读取到服务端消息 {}", read);
                 }
@@ -97,6 +98,7 @@ public class TimerClient implements Runnable {
     private void doConnect() throws IOException {
         boolean connected = socketChannel.connect(new InetSocketAddress("localhost", 8877));
         if (connected) {
+
             socketChannel.register(selector, SelectionKey.OP_READ);
         }else {
             socketChannel.register(selector, SelectionKey.OP_CONNECT);

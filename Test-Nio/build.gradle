@@ -10,13 +10,15 @@ sourceCompatibility = 1.8
 repositories {
     maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     compile(
+            'chen.commons:commons:1.0.0',
             'org.slf4j:slf4j-simple:1.7.25',
             'org.apache.commons:commons-lang3:3.8.1',
-            'org.projectlombok:lombok:1.18.16',
+            'org.projectlombok:lombok:1.18.16'
     )
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

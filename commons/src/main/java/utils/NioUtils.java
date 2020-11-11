@@ -1,17 +1,14 @@
-package chen;
+package utils;
+
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.Channel;
-import java.nio.channels.SelectableChannel;
 import java.nio.channels.SocketChannel;
 
-/**
- * @author chenwh
- * @date 2020/11/11
- */
-public class ChannelUtils {
-    public static void writeChannel( SocketChannel channel,String string,String charset) throws IOException {
+
+public class NioUtils {
+
+    public static void writeChannel(SocketChannel channel, String string, String charset) throws IOException {
         channel.write(ByteBuffer.wrap(string.getBytes(charset)));
     }
 
