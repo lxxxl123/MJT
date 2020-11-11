@@ -17,7 +17,9 @@ dependencies {
             //network
             "org.openlabtesting.netty:netty-all:4.1.48.Final",
             //common tool
-            'org.projectlombok:lombok:1.18.16'
+            'org.projectlombok:lombok:1.18.16',
+            'org.slf4j:slf4j-simple:1.7.25'
+
     )
 
     testCompile (
