@@ -1,5 +1,6 @@
 import com.sun.org.apache.bcel.internal.generic.Select;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.channels.spi.AbstractSelectionKey;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 用法:
@@ -44,9 +46,6 @@ public class TimerServer implements Runnable {
         }
     }
 
-    public static void main(String[] args) {
-
-    }
 
     @Override
     public void run() {
@@ -63,7 +62,12 @@ public class TimerServer implements Runnable {
                     handleKey(selectionKey);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    selector.close();
+                } catch (IOException ex) {
+                    log.error("",ex);
+                }
+                log.error("",e);
             }
 
         }
@@ -80,26 +84,30 @@ public class TimerServer implements Runnable {
                 }
                 if (key.isReadable()) {
                     SocketChannel channel = (SocketChannel) key.channel();
-                    ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-                    int read = -1;
-                    while ((read = channel.read(byteBuffer)) > 0) {
-                        byteBuffer.flip();
-                        byte[] bytes = new byte[byteBuffer.remaining()];
-                        byteBuffer.get(bytes);
-                        log.info("接收到消息{}", new String(bytes, "utf-8"));
+                    String read = null;
+                    if(StringUtils.isNotEmpty(read = ChannelUtils.readChannel(channel, "utf-8"))){
+                        log.info("接收到消息:{}", read);
                         String out = String.format("当日时间: %s\r\n", Calendar.getInstance().toInstant());
-                        channel.write(ByteBuffer.wrap(out.getBytes("gbk")));
+                        ChannelUtils.writeChannel(channel,out,"utf-8");
                     }
-                    if (read < 0) {
+                    if (read == null) {
                         log.info("客户端断开 {} {}",channel.getLocalAddress(),channel.getRemoteAddress());
                         key.cancel();
                         channel.close();
                     }
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
+                key.cancel();
+                try {
+                    key.channel().close();
+                } catch (IOException ex) { }
                 log.error("", e);
             }
         }
+    }
+
+    public static void main(String[] args) {
+        CompletableFuture.runAsync(new TimerServer()).join();
     }
 }

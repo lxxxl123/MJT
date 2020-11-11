@@ -8,7 +8,7 @@ import java.nio.channels.Channel;
  * @author chenwh
  * @date 2020/11/11
  */
-public class BufferTest {
+public class BufferHelper {
 
     /**
      * wrap 默认读模式
