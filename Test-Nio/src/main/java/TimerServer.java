@@ -88,7 +88,7 @@ public class TimerServer implements Runnable {
                         byteBuffer.get(bytes);
                         log.info("接收到消息{}", new String(bytes, "utf-8"));
                         String out = String.format("当日时间: %s\r\n", Calendar.getInstance().toInstant());
-                        channel.write(ByteBuffer.wrap(out.getBytes()));
+                        channel.write(ByteBuffer.wrap(out.getBytes("gbk")));
                     }
                     if (read < 0) {
                         log.info("客户端断开 {} {}",channel.getLocalAddress(),channel.getRemoteAddress());
