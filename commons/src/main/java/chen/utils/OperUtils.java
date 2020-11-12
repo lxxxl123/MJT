@@ -3,7 +3,8 @@ package chen.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 //运算工具
@@ -19,18 +20,30 @@ public class OperUtils {
     private static final String _OR_ = " or ";
 
     private static class Tree {
+
+
+        private final String[] splitOr;
+
+        private final String stat;
+
+
         Tree(String stat){
+            if (!AND.equals(stat)) {
+                this.splitOr = stat.split(_OR_);
+            }else{
+                this.splitOr = null;
+            }
             this.stat = stat;
+
         }
+
 
         Tree(){
             this.stat = OR;
+            this.splitOr = null;
         }
-                
-        String stat;
 
-
-        List<Tree> sons = new ArrayList<>();
+        private List<Tree> sons = new ArrayList<>();
 
         private void addSons(StringBuilder s) {
             Tree tree = new Tree(s.toString());
@@ -43,25 +56,21 @@ public class OperUtils {
             sons.add(t);
         }
 
-        private static String statAndStat(String stat1,String stat2){
-            LinkedList<StringBuilder> list = Arrays
-                    .stream(stat1.split(OR))
-                    .map(StringBuilder::new)
-                    .collect(Collectors.toCollection(LinkedList::new));
-            LinkedList<StringBuilder> newlist = new LinkedList<>();
-            for (String s : stat2.split(OR)) {
-                for (StringBuilder or : list) {
-                    newlist.add(new StringBuilder(or.toString() + _AND_ + s));
+        private static String[] statAndStat(String[] split1,String[] split2){
+            ArrayList<String> newlist = new ArrayList<>(split1.length*split2.length);
+            for (String s1 : split1) {
+                for (String s2 : split2) {
+                    newlist.add(String.format("%s%s%s", s1, _AND_, s2));
                 }
             }
-            return String.join(_OR_,newlist);
+            return newlist.toArray(new String[]{});
         }
 
         @Override
         public String toString() {
             try {
                 if (AND.equals(stat)) {
-                    return sons.stream().map(Tree::toString).reduce(Tree::statAndStat).orElse("");
+                    return String.join(_OR_,sons.stream().map(e->e.splitOr).reduce(Tree::statAndStat).get());
                 } else if (OR.equals(stat)) {
                     return sons.stream().map(Tree::toString).collect(Collectors.joining(_OR_));
                 } else {
@@ -138,17 +147,5 @@ public class OperUtils {
         return root;
     }
 
-    /**
-     *  1
-     *
-     * @param args
-     */
 
-
-    public static void main(String[] args) {
-        String s = " ( 1 or 2 and 7 ) and (3 or 4 )";
-
-        System.out.println(splitBracket(s));
-
-    }
 }
