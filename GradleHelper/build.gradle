@@ -18,10 +18,14 @@ dependencies {
             //network
             "org.openlabtesting.netty:netty-all:4.1.48.Final",
             //common tool
-            'org.projectlombok:lombok:1.18.16',
             'org.slf4j:slf4j-simple:1.7.25',
             "org.apache.commons:commons-lang3:3.8.1"
     )
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 
     testCompile(
             "junit:junit:4.11"

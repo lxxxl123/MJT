@@ -1,11 +1,7 @@
 package chen;
 
-import utils.NioUtils;
-
 import java.io.UnsupportedEncodingException;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.channels.Channel;
 
 /**
  * @author chenwh

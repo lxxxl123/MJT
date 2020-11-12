@@ -1,11 +1,15 @@
 package chen.nio;
 
-import chen.ChannelUtils;
+import chen.utils.NioUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Set;
@@ -83,10 +87,10 @@ public class TimerServer implements Runnable {
                 if (key.isReadable()) {
                     SocketChannel channel = (SocketChannel) key.channel();
                     String read = null;
-                    if(StringUtils.isNotEmpty(read = ChannelUtils.readChannel(channel, "utf-8"))){
+                    if(StringUtils.isNotEmpty(read = NioUtils.readChannel(channel, "utf-8"))){
                         log.info("接收到消息:{}", read);
                         String out = String.format("当日时间: %s\r\n", Calendar.getInstance().toInstant());
-                        ChannelUtils.writeChannel(channel,out,"utf-8");
+                        NioUtils.writeChannel(channel,out,"utf-8");
                     }
                     if (read == null) {
                         log.info("客户端断开 {} {}",channel.getLocalAddress(),channel.getRemoteAddress());
