@@ -101,8 +101,13 @@ public class OperUtils {
         Tree cur = new Tree();
         Tree root = cur;
 
+        /**
+         * 0 - 这个状态下遇到()会把它当成字符串
+         * 1 - 这个状态下遇到( 会尝试拆分
+         */
+        int state = 1;
         for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '(') {
+            if (chars[i] == '(' && state == 1) {
                 int num = 1;
                 int right = -1;
                 int left = i+1;
@@ -121,6 +126,7 @@ public class OperUtils {
                 i = right+1;
             }
             else if (chars[i] == '&') {
+                state = 1;
                  if (AND.equals(cur.stat)) {
                     cur.addSons(sb);
                 } else if (OR.equals(cur.stat) ) {
@@ -130,6 +136,7 @@ public class OperUtils {
                     cur = son;
                 }
             } else if (chars[i] == '|') {
+                state = 1;
                  if (AND.equals(cur.stat)) {
                     cur.addSons(sb);
                     cur = root;
@@ -137,6 +144,9 @@ public class OperUtils {
                     cur.addSons(sb);
                 }
             } else {
+                if (chars[i] != ' ') {
+                    state = 0;
+                }
                 sb.append(chars[i]);
             }
             if (i >= chars.length-1) {
