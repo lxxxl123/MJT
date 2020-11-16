@@ -21,6 +21,7 @@ public class BufferHelper {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
         //分配空间
+        //默认写模式
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         //写
         byteBuffer.put("fuck you ".getBytes());

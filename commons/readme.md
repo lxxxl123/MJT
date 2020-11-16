@@ -9,3 +9,10 @@
 
 
  2, 
+ setting.gradle 
+    include 'commons'
+    project(':commons').projectDir =file('../commons')
+  
+  build.gradle
+    compile project(':commons')
+    
