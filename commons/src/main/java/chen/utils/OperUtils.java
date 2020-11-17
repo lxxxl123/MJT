@@ -3,8 +3,10 @@ package chen.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 //运算工具
@@ -87,14 +89,6 @@ public class OperUtils {
 
 
 
-    public static String splitBracket(String oper) {
-        oper = oper.replace(AND, "&");
-        oper = oper.replace(OR, "|");
-        return createTree(oper).toString();
-    }
-
-
-
     private static Tree createTree(String oper){
         char[] chars = oper.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -155,6 +149,12 @@ public class OperUtils {
         }
 
         return root;
+    }
+
+    public static String splitBracket(String oper) {
+        oper = oper.replace(AND, "&");
+        oper = oper.replace(OR, "|");
+        return createTree(oper).toString();
     }
 
 }
