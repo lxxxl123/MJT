@@ -55,7 +55,7 @@ public class AioTimerServer implements Runnable {
                         buffer.flip();
                         byte[] bytes = new byte[buffer.remaining()];
                         buffer.get(bytes);
-                        log.info("成功读取到消息 = {} ", new String(bytes, Charset.forName("utf-8")));
+                        log.info("成功读取到消息 = [{}] ", new String(bytes, Charset.forName("utf-8")));
 
                         //保持读
                         ByteBuffer buff = ByteBuffer.allocate(1024);
