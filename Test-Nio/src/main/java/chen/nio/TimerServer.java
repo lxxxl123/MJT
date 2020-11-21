@@ -90,7 +90,7 @@ public class TimerServer implements Runnable {
                     if(StringUtils.isNotEmpty(read = NioUtils.readChannel(channel, "utf-8"))){
                         log.info("接收到消息:{}", read);
                         String out = String.format("当日时间: %s\r\n", Calendar.getInstance().toInstant());
-                        NioUtils.writeChannel(channel,out,"utf-8");
+                        NioUtils.writeChannel(channel,out,"gbk");
                     }
                     if (read == null) {
                         log.info("客户端断开 {} {}",channel.getLocalAddress(),channel.getRemoteAddress());

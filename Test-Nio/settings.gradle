@@ -1,2 +1,4 @@
 rootProject.name = 'Test-Nio'
+include 'commons'
+project(':commons').projectDir =file('../commons')
 
