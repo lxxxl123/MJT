@@ -3,10 +3,8 @@ package chen.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 //运算工具
@@ -151,6 +149,9 @@ public class OperUtils {
         return root;
     }
 
+    /**
+     * 基本作用 ,把逻辑表达式的括号全部删除 , 不影响原来的运算结果
+     */
     public static String splitBracket(String oper) {
         oper = oper.replace(AND, "&");
         oper = oper.replace(OR, "|");
