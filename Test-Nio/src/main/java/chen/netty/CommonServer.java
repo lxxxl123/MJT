@@ -22,6 +22,12 @@ import static chen.netty.Const.QUERY;
 @Slf4j
 public class CommonServer implements Runnable {
 
+    private ChannelHandler[] handlers ;
+
+    public CommonServer(ChannelHandler... handlers) {
+        this.handlers = handlers;
+    }
+
     @Override
     public void run() {
         EventLoopGroup boss = new NioEventLoopGroup();
@@ -33,9 +39,16 @@ public class CommonServer implements Runnable {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new TimerHandler());
+                        if (handlers != null) {
+                            for (ChannelHandler handler : handlers) {
+                                ch.pipeline().addLast(handler);
+                            }
+                        }else{
+                            ch.pipeline().addLast(new TimerHandler());
+                        }
                     }
                 });
+
 
         try {
             ChannelFuture future = server.bind(new InetSocketAddress("localhost", 8877)).sync();
@@ -60,7 +73,7 @@ public class CommonServer implements Runnable {
             log.info("接收到消息 = [{}]", receive);
             if (receive.equals(QUERY)) {
                 ByteBuf byteBuf = Unpooled.copiedBuffer(Calendar.getInstance().toInstant().toString().getBytes());
-                ctx.write(byteBuf);
+                ctx.writeAndFlush(byteBuf);
             }
         }
 
