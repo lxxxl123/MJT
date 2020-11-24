@@ -94,7 +94,7 @@ public class OperUtils {
         Tree root = cur;
 
         /**
-         * 0 - 这个状态下遇到()会把它当成字符串
+         * 0 - 这个状态下a遇到()会把它当成字符串
          * 1 - 这个状态下遇到( 会尝试拆分
          */
         int state = 1;

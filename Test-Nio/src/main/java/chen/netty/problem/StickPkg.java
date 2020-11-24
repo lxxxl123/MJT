@@ -42,7 +42,7 @@ public class StickPkg {
 
             @Override
             public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                for (int i1 = 0; i1 < 100; i1++) {
+                for (int i1 = 0; i1 < 1000; i1++) {
                     ctx.writeAndFlush(Unpooled.copiedBuffer(Const.QUERY.getBytes()));
                 }
             }
@@ -53,7 +53,6 @@ public class StickPkg {
                 if (Const.QUERY.equals(read)) {
                     log.info("客户端收到消息次数: {}", i.getAndIncrement());
                 }
-                super.channelRead(ctx, msg);
             }
         });
 
