@@ -14,6 +14,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 沾包拆包问题 , 可以使用
+ * @see LineBasedFrameDecoder  换行分割
+ * @see io.netty.handler.codec.DelimiterBasedFrameDecoder 自定义字符分割
+ * @see io.netty.handler.codec.FixedLengthFrameDecoder 定长分割
  * @author chenwh
  * @date 2020/11/23
  */
