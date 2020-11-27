@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+package chen.netty.problem.seriallize.protobuf;
+option java_package = "chen.netty.problem.seriallize.protobuf";
+option java_outer_classname = "Student";
+
+message StudentProto{
+    required int32 age = 1;
+    required string name = 2;
+}

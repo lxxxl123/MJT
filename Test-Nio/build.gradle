@@ -26,8 +26,11 @@ dependencies {
             'org.slf4j:slf4j-simple:1.7.25',
             'org.apache.commons:commons-lang3:3.8.1',
     )
+    compile group: 'org.msgpack', name: 'msgpack', version: '0.6.12'
+    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.13.0'
     implementation project(":commons")
     compileOnly 'org.projectlombok:lombok:1.18.16'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
     testCompileOnly 'org.projectlombok:lombok:1.18.16'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'

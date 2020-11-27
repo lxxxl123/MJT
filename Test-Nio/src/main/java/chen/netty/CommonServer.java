@@ -36,6 +36,7 @@ public class CommonServer implements Runnable {
         server.group(boss, worker)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS,3000)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
