@@ -19,8 +19,11 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    //普通的工具包
     compile "org.apache.commons:commons-lang3:3.8.1"
     compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
+
+    //以下两个swagger包开启swagger功能
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 
