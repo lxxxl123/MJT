@@ -2,8 +2,8 @@ package chen.test;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 /**
  * @author chenwh
@@ -12,15 +12,21 @@ import java.util.stream.Stream;
 @Slf4j
 public class test {
     public static void main(String[] args) {
-        Stream.of("abcd","abcd").parallel().forEach(e-> {
-            synchronized ((e + "a").intern()) {
-                System.out.println("字符串");
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                System.out.println(1);
+
             }
         });
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        future.cancel(true);
+
+        while (true) {
+
+        }
     }
 }
