@@ -1,11 +1,9 @@
 plugins {
     id 'java'
 }
-apply plugin: 'idea'
+
 group 'org.example'
 version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
 
 repositories {
     maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
@@ -18,7 +16,7 @@ repositories {
 dependencies {
 
 
-
+   compile project(":commons")
     compile(
             //这种方式需要打包
 //            'chen.commons:commons:1.0.0',

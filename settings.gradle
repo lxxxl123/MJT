@@ -1,7 +1,6 @@
 rootProject.name = 'MJT'
 include 'commons'
 include 'Test-Nio'
-include 'Netty-Http'
-include 'Netty-Gradle-Test'
-
+include 'Test-Spring'
+include 'fuck'
 

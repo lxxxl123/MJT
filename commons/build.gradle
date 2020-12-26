@@ -1,14 +1,8 @@
 plugins {
     id 'java'
 }
-// 这两个插件是必备
-apply plugin: 'idea'
-apply plugin:"maven"
-group 'chen.commons'
-version '1.0.0'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+group 'org.example'
+version '1.0-SNAPSHOT'
 
 repositories {
     maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
