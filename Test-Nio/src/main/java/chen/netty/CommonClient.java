@@ -1,5 +1,7 @@
 package chen.netty;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -12,6 +14,7 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -21,10 +24,10 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class CommonClient implements Runnable {
 
-    private ChannelHandler[] handlers ;
+    private List<ChannelHandler> handlers ;
 
     public CommonClient(ChannelHandler... handlers) {
-        this.handlers = handlers;
+        this.handlers = ListUtil.of(handlers);
     }
 
 
@@ -32,13 +35,13 @@ public class CommonClient implements Runnable {
     public void run() {
         NioEventLoopGroup group = new NioEventLoopGroup();
         Bootstrap b = new Bootstrap();
-        b.group(group).channel(NioSocketChannel.class)
+        b.group(new NioEventLoopGroup()).channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY, true)
-                .handler(new LoggingHandler(LogLevel.DEBUG))
+                .handler(new LoggingHandler(LogLevel.INFO))
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        if (handlers != null) {
+                        if (CollUtil.isNotEmpty(handlers)) {
                             for (ChannelHandler handler : handlers) {
                                 ch.pipeline().addLast(handler);
                             }

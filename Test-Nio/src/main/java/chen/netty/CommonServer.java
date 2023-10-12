@@ -1,5 +1,6 @@
 package chen.netty;
 
+import cn.hutool.core.collection.ListUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -7,10 +8,13 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static chen.netty.Const.QUERY;
@@ -22,10 +26,10 @@ import static chen.netty.Const.QUERY;
 @Slf4j
 public class CommonServer implements Runnable {
 
-    private ChannelHandler[] handlers ;
+    private List<ChannelHandler> handlers ;
 
     public CommonServer(ChannelHandler... handlers) {
-        this.handlers = handlers;
+        this.handlers = ListUtil.of(handlers);
     }
 
     @Override
@@ -37,6 +41,7 @@ public class CommonServer implements Runnable {
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS,3000)
+                .handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {

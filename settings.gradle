@@ -1,6 +1,0 @@
-rootProject.name = 'MJT'
-include 'commons'
-include 'Test-Nio'
-include 'Test-Spring'
-include 'fuck'
-
